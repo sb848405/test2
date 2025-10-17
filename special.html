@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why You Are Special</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(to top right, #fff1f2, #fde4e4);
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 1rem;
+            color: #4b5563;
+        }
+
+        .main-container {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            max-width: 700px;
+            width: 100%;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .font-pacifico {
+            font-family: 'Pacifico', cursive;
+        }
+
+        .reasons-container {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding-right: 1rem;
+        }
+
+        .reasons-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .reasons-container::-webkit-scrollbar-track {
+            background: #fde4e4;
+            border-radius: 10px;
+        }
+
+        .reasons-container::-webkit-scrollbar-thumb {
+            background: #fda4af;
+            border-radius: 10px;
+        }
+
+        .reasons-container::-webkit-scrollbar-thumb:hover {
+            background: #fb7185;
+        }
+
+        .reasons-container p {
+            background: rgba(255, 255, 255, 0.9);
+            color: #4b5563;
+            padding: 0.75rem 1rem 0.75rem 3rem;
+            margin-bottom: 0.75rem;
+            border-radius: 0.75rem;
+            border-left: 6px solid #f472b6;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            font-weight: 500;
+        }
+
+        .reasons-container p:nth-child(even) {
+            border-left-color: #fb7185;
+        }
+
+        .reasons-container p:hover {
+            transform: translateX(5px) scale(1.02);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .reasons-container p::before {
+            content: '✨';
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+            color: #f472b6;
+        }
+
+        .reasons-container p:nth-child(even)::before {
+            color: #fb7185;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-top: 1.5rem;
+            background-color: #f472b6;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.3s;
+            align-self: center;
+        }
+
+        .back-button:hover {
+            background-color: #ec4899;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-container">
+        <h2 class="font-pacifico text-4xl md:text-5xl mb-6 text-center text-rose-500">Reasons Why You Are Special</h2>
+        <div class="reasons-container text-lg text-left">
+            <p>Because your smile is like sunrise after a long, dark night.</p>
+            <p>Because your eyes express what words never can.</p>
+            <p>Because you make people feel comfortable around you.</p>
+            <p>Because you have a calm energy that’s rare.</p>
+            <p>Because you are special because you bring the world at peace.</p>
+            <p>Because you’re kind without showing off about it.</p>
+            <p>Because you listen when others talk.</p>
+            <p>Because your laughter sounds like music.</p>
+            <p>Because your gentleness transforms the people around you.</p>
+            <p>Because you give simple days a special touch.</p>
+            <p>Because you treat everyone with respect.</p>
+            <p>Because you never pretend.</p>
+            <p>Because you laugh from your heart.</p>
+            <p>Because you notice details others miss.</p>
+            <p>Because you stay real, not fake.</p>
+            <p>Because your sincerity is hard to find and lovely.</p>
+            <p>Because you have a vibe that feels safe.</p>
+            <p>Because you don’t try to impress , you just do.</p>
+            <p>Because you’re confident without arrogance.</p>
+            <p>Because you have goals and you chase them.</p>
+            <p>Even your flaws make you perfect.</p>
+            <p>Because you stay grounded, no matter what.</p>
+            <p>Because you bring good energy wherever you go.</p>
+            <p>Because you light up every dark moment.</p>
+            <p>Because you’re strong but soft-hearted.</p>
+            <p>Because you don’t need validation to know your worth.</p>
+            <p>Because you stay true to yourself.</p>
+            <p>Because you don't pretend to be someone else.</p>
+            <p>Because your voice makes everything better.</p>
+            <p>Because you have the kind heart.</p>
+            <p>Because you make effort without showing it off.</p>
+            <p>Because you have genuine kindness in your voice</p>
+            <p>Because you’re patient when others lose control.</p>
+            <p>Because you’re polite, even when people aren’t.</p>
+            <p>Because your goals are important to you.</p>
+            <p>Because you give simple things more meaning.</p>
+            <p>Because you value people’s emotions.</p>
+            <p>Because you don’t gossip — that’s rare.</p>
+            <p>Because you handle things maturely.</p>
+            <p>Because you never pretend to feel anything.</p>
+            <p>Because you make even silence feel peaceful.</p>
+            <p>Because your eyes hold entire universes.</p>
+            <p>Because you see beauty in small doses.</p>
+            <p>Because you're magic, disguised as human.</p>
+            <p>Because you’re understanding without needing details.</p>
+            <p>Because you care without expectation.</p>
+            <p>Because you stay humble.</p>
+            <p>Because you have an effortless charm.</p>
+            <p>Because you make people smile without trying.</p>
+            <p>Because you stand up for what’s right.</p>
+            <p>Because you transform fear into peace.</p>
+            <p>Because you look beautiful just being natural.</p>
+            <p>Because you're balanced calm yet lively.</p>
+            <p>Because even your anger is cute.</p>
+            <p>Because you handle pressure with grace.</p>
+            <p>Because you think before you speak.</p>
+            <p>Because you never make others feel small.</p>
+            <p>Because you're both tough and fragile.</p>
+            <p>Because you remember small details about people.</p>
+            <p>Because you make people feel important.</p>
+            <p>Because you don’t copy others — you have your own style.</p>
+            <p>Because you appreciate little things.</p>
+            <p>Because you don’t pretend to be perfect..</p>
+            <p>Because you know how to make moments special.</p>
+            <p>Because your laugh makes everything lighter.</p>
+            <p>Because you bring positivity without forcing it.</p>
+            <p>Because you’re gentle but not weak.</p>
+            <p>Because you inspire others without knowing it.</p>
+            <p>Because your heart is pure gold.</p>
+            <p>Because you're the peace in chaos.</p>
+            <p>Because you complete every missing piece.</p>
+            <p>Because you You value time.</p>
+            <p>Because you keep things real.</p>
+            <p>Because you’re focused</p>
+            <p>Because being with you comforts me.</p>
+            <p>Because you don’t hold grudges.</p>
+            <p>Because you’re emotionally mature.</p>
+            <p>Because you bring out the best in people.</p>
+            <p>Because you handle things gracefully</p>
+            <p>Because you cause time to stand still.</p>
+            <p>Because you have a naturally soothing aura. </p>
+            <p>Because you help others without expecting anything.</p>
+            <p>Because you’re thoughtful.</p>
+            <p>Because you make love pure.</p>
+            <p>Because being with you is like a blessing.</p>
+            <p>Because you don’t follow trends blindly.</p>
+            <p>Because you have a voice people like to listen to.</p>
+            <p>Because you make pain into lessons.</p>
+            <p>Because you balance logic and emotions well.</p>
+            <p>Because your smile feels like homecoming.</p>
+            <p>Because you’re simple but never ordinary.</p>
+            <p>Because every melody begins to make sense after you. </p>
+            <p>Because you spread positivity just by being there. </p>
+            <p>Because you stay honest, even when it’s hard. </p>
+            <p>Because you’re not afraid to be yourself. </p>
+            <p>Because you’re good at making others feel understood.</p>
+            <p>Because you have a natural elegance.</p>
+            <p>Because you’re emotionally intelligent.</p>
+            <p>Because you make people feel calm, not tense.</p>
+            <p>Because you make even simple moments feel meaningful.</p>
+            <p>Because there is nothing better than you</p>
+        </div>
+        <a href="Main.html" class="back-button">⬅ Back to Home</a>
+    </div>
+</body>
+
+</html>
+

@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Message from the Universe</title>
+
+    <!-- External Libraries & Fonts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Inter:wght@400;500;700&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <style>
+        /* --- Base & Body Styles --- */
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+            background-color: #000;
+            color: white;
+        }
+
+        /* --- Universe Modal Styles --- */
+        .universe-container {
+            font-family: 'Noto Nastaliq Urdu', serif;
+            background-color: #000000;
+            overflow: hidden;
+            direction: rtl;
+        }
+
+        .universe-bg {
+            background-image: url('Universe.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .element-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-size: cover;
+            background-position: center;
+            border: 4px solid #D4AF37;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
+        }
+
+        .element-circle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 25px rgba(212, 175, 55, 1);
+        }
+
+        .center-circle {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            border: 5px solid #ff00ff;
+            box-shadow: 0 0 20px #ff00ff, inset 0 0 20px #ff00ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
+        }
+        
+        /* --- General Modal Styles --- */
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+            transition: all 0.3s ease-in-out;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 1050;
+        }
+
+        .modal.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        @media (max-width: 768px) {
+            .element-circle {
+                width: 80px;
+                height: 80px;
+            }
+
+            .center-circle {
+                width: 200px;
+                height: 200px;
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .element-circle {
+                width: 60px;
+                height: 60px;
+            }
+
+            .center-circle {
+                width: 180px;
+                height: 180px;
+                font-size: 0.7rem;
+                padding: 10px;
+            }
+        }
+
+        #shayari-modal {
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+    </style>
+</head>
+
+<body class="universe-container universe-bg">
+
+    <audio id="background-music" loop>
+        <s432hz.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <div class="relative min-h-screen w-full flex items-center justify-center p-4">
+        <div class="absolute w-full h-full flex items-center justify-center opacity-50">
+            <div class="relative w-[300px] h-[300px] md:w-[450px] md:h-[450px]">
+                <svg width="100%" height="100%" viewBox="0 0 200 200" class="absolute top-0 left-0">
+                    <line x1="100" y1="100" x2="100" y2="10" stroke="#D4AF37" stroke-width="1" stroke-dasharray="4" />
+                    <line x1="100" y1="100" x2="185" y2="65" stroke="#D4AF37" stroke-width="1" stroke-dasharray="4" />
+                    <line x1="100" y1="100" x2="155" y2="175" stroke="#D4AF37" stroke-width="1" stroke-dasharray="4" />
+                    <line x1="100" y1="100" x2="45" y2="175" stroke="#D4AF37" stroke-width="1" stroke-dasharray="4" />
+                    <line x1="100" y1="100" x2="15" y2="65" stroke="#D4AF37" stroke-width="1" stroke-dasharray="4" />
+                    <path d="M 100 10 L 185 65 L 155 175 L 45 175 L 15 65 Z" fill="none" stroke="#D4AF37" stroke-width="1" stroke-dasharray="4" />
+                </svg>
+            </div>
+        </div>
+        <div class="relative w-[300px] h-[300px] md:w-[450px] md:h-[450px] flex items-center justify-center">
+            <div class="center-circle text-center">
+                <p>
+                    I’m the Universe, vast and wide,
+                    Yet you have a glow I cannot hide.
+                    Perfect in all, with a heart so kind,
+                    Even the stars marvel at your mind.
+                    On your birthday, I sparkle too,
+                    ’Cause friends like you are rare and true. 🌌💖
+                </p>
+            </div>
+            <div id="galaxy" class="element-circle absolute" style="top: -60px; left: 50%; transform: translateX(-50%); background-image: url('Space.jpg');"></div>
+            <div id="water" class="element-circle absolute" style="top: 25%; right: -50px; transform: translateY(-50%); background-image: url('Earth.png');"></div>
+            <div id="fire" class="element-circle absolute" style="bottom: -25px; right: 15%; transform: translateX(50%); background-image: url('Fire.png');"></div>
+            <div id="lightning" class="element-circle absolute" style="bottom: -25px; left: 15%; transform: translateX(-50%); background-image: url('Water.png');"></div>
+            <div id="tree" class="element-circle absolute" style="top: 25%; left: -50px; transform: translateY(-50%); background-image: url('Air.png');"></div>
+        </div>
+    </div>
+    <button id="music-toggle" class="fixed bottom-5 right-5 z-50 p-3 bg-black/50 border-2 border-yellow-500 rounded-full text-yellow-500 hover:bg-black/70 hover:text-white transition-all duration-300 backdrop-blur-sm">
+        <svg id="play-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class=" ">
+            <path d="M8 5v14l11-7z"></path>
+        </svg>
+        <svg id="pause-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="hidden">
+            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path>
+        </svg>
+    </button>
+    <div id="shayari-modal" class="modal scale-95">
+        <div class="bg-gray-900 border-2 border-purple-500 rounded-2xl shadow-2xl p-6 md:p-8 text-center w-full max-w-md relative transform transition-transform duration-300">
+            <button id="close-modal" class="absolute top-2 right-4 text-white text-3xl font-bold">&times;</button>
+            <h2 id="modal-title" class="text-2xl md:text-3xl font-bold text-purple-400 mb-4" style="font-family: 'Pacifico', cursive;"></h2>
+            <p id="modal-text" class="text-lg md:text-xl leading-loose"></p>
+        </div>
+    </div>
+    <a href="Main.html" class="fixed top-5 left-5 z-50 px-4 py-2 bg-black/60 border-2 border-yellow-500 rounded-full text-yellow-400 hover:bg-yellow-500 hover:text-black transition-all duration-300 backdrop-blur-sm font-semibold">
+        ← Back
+    </a>
+
+    <script>
+        $(document).ready(function() {
+            const audio = document.getElementById('background-music');
+            
+            // Auto-play music when the page loads
+            audio.play().catch(error => {
+                console.log("Audio autoplay was prevented. User interaction needed.");
+                // Show a play button or prompt if autoplay fails
+                // For simplicity, we'll rely on the manual toggle.
+            });
+            $('#play-icon').addClass('hidden');
+            $('#pause-icon').removeClass('hidden');
+
+
+            const shayariModal = document.getElementById('shayari-modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalText = document.getElementById('modal-text');
+            const closeModal = document.getElementById('close-modal');
+
+            const shayariData = {
+                galaxy: {
+                    title: 'Galaxy',
+                    text: `Taaron ki roshni bhi teri chamak ke samne feeki lage,<br>
+                           Chaand bhi sharma jaye teri roshni ke saaye mein.<br>
+                           Har Galaxy teri adaon ko dekh ke jhukti hai,<br>
+                           Aur har kona aasmaan ka bas teri mahima se roshan ho. ✨`
+                },
+                water: {
+                    title: 'Earth',
+                    text: `Mitti ki khushboo se teri muskaan mehka jaaye,<br>
+                           Pedon ki sarsarahat jaise tera sukoon chhupa jaaye.<br>
+                           Har fasal aur phool teri hansi se khil uthe,<br>
+                           Aur har saans mein teri zindagi ki roshni jhalak jaaye.`
+                },
+                fire: {
+                    title: 'Fire',
+                    text: `Aag si lehraati, par tu aur bhi zyada roshan,<br>
+                           Jalti hai jaise subah ke pehle kiran.<br>
+                           Hawa ne bohot koshish ki, par tumhari aag andhiyon mein bhi jalti rahi,<br>
+                           Aur har pal tumhari roshni se duniya roshan ho ti rahi 🐦‍🔥`
+                },
+                lightning: {
+                    title: 'Water',
+                    text: `Leher hoon main, par tu poora samundar,<br>
+                           Har nazar tujhmein paaye apna manzar.<br>
+                           Tere saath har saans bhi geet ban jaaye,<br>
+                           Jaise paani tujhmein apni rooh paaye. 💧`
+                },
+                tree: {
+                    title: 'Air',
+                    text: `Hawa ke jhokeon mein teri khamoshi gunj jaaye,<br>
+                           Har lehraati fiza teri muskaan se roshan ho jaaye.<br>
+                           Patton aur phoolon ko teri masti se jeevan mile,<br>
+                           Aur har kona teri huzoori se saje aur mehka jaaye.`
+                }
+            };
+
+            document.querySelectorAll('.element-circle').forEach(circle => {
+                circle.addEventListener('click', () => {
+                    const data = shayariData[circle.id];
+                    if (data) {
+                        modalTitle.textContent = data.title;
+                        modalText.innerHTML = data.text;
+                        shayariModal.classList.add('show');
+                        shayariModal.classList.remove('scale-95');
+                    }
+                });
+            });
+
+            const hideShayariModal = () => {
+                shayariModal.classList.remove('show');
+                shayariModal.classList.add('scale-95');
+            };
+
+            closeModal.addEventListener('click', hideShayariModal);
+            shayariModal.addEventListener('click', (event) => {
+                if (event.target === shayariModal) {
+                    hideShayariModal();
+                }
+            });
+
+            const musicToggle = document.getElementById('music-toggle');
+            const playIcon = document.getElementById('play-icon');
+            const pauseIcon = document.getElementById('pause-icon');
+
+            musicToggle.addEventListener('click', () => {
+                if (audio.paused) {
+                    audio.play();
+                    playIcon.classList.add('hidden');
+                    pauseIcon.classList.remove('hidden');
+                } else {
+                    audio.pause();
+                    playIcon.classList.remove('hidden');
+                    pauseIcon.classList.add('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

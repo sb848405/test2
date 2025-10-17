@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>An Unforgettable Birthday for a Goddess!</title>
+
+    <!-- External Libraries & Fonts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.77/Tone.js"></script>
+
+    <style>
+        /* --- Custom Properties for Theming --- */
+        :root {
+            --bg-dark: #0d0221;
+            --bg-light: #f3e8ff;
+            --text-dark: #1e1b4b;
+            --text-light: #fde2ff;
+            --accent-pink: #f72585;
+            --accent-purple: #7209b7;
+            --accent-blue: #4361ee;
+            --accent-gold: #ffdd00;
+            --shadow-color: rgba(114, 9, 183, 0.5);
+            --theme-transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        /* --- Light Mode Theme --- */
+        .light-mode {
+            --bg-dark: #f5f3ff;
+            --bg-light: #ffffff;
+            --text-dark: #4c1d95;
+            --text-light: #312e81;
+            --shadow-color: rgba(109, 40, 217, 0.2);
+            --accent-pink: #e67ab2;
+            --accent-purple: #9d4edd;
+            --accent-blue: #5a7efc;
+        }
+
+        /* --- Base & Body Styles --- */
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            color: var(--text-light);
+            overflow-x: hidden;
+            background-color: var(--bg-dark);
+            transition: var(--theme-transition);
+        }
+
+        /* --- Pre-loader --- */
+        #loader {
+            position: fixed; inset: 0; background: var(--bg-dark); z-index: 9999; display: flex; align-items: center; justify-content: center; transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+        #loader.hidden { opacity: 0; visibility: hidden; }
+        .spinner {
+            width: 60px; height: 60px; border: 5px solid rgba(255, 255, 255, 0.2); border-top-color: var(--accent-pink); border-radius: 50%; animation: spin 1s ease-in-out infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* --- Canvas Background --- */
+        #animationCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+        .content-wrapper { position: relative; z-index: 1; }
+        
+        /* --- UI Controls --- */
+        .ui-controls { position: fixed; top: 1rem; right: 1rem; z-index: 1100; display: flex; gap: 0.5rem; }
+        .control-btn {
+            cursor: pointer; background-color: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); border-radius: 9999px; padding: 0.5rem; transition: all 0.3s ease;
+        }
+        .light-mode .control-btn { background-color: rgba(0, 0, 0, 0.05); border-color: rgba(0, 0, 0, 0.1); }
+        .control-btn:hover { transform: scale(1.1) rotate(15deg); box-shadow: 0 0 15px var(--shadow-color); }
+        .control-btn svg { width: 1.5rem; height: 1.5rem; }
+        #theme-toggle svg { color: var(--accent-gold); }
+        .light-mode #theme-toggle svg { color: var(--accent-purple); }
+        #moon-icon, .light-mode #sun-icon, #music-on-icon { display: none; }
+        .light-mode #moon-icon, .music-playing #music-on-icon, #music-off-icon { display: block; }
+        .music-playing #music-off-icon { display: none; }
+        
+        /* --- Typography & Header --- */
+        #main-header { transition: transform 0.2s ease-out; perspective: 1000px; }
+        .font-pacifico {
+            font-family: 'Pacifico', cursive; text-shadow: 0 0 10px #fff, 0 0 20px var(--accent-pink), 0 0 40px var(--accent-purple); animation: float 6s ease-in-out infinite;
+        }
+        .light-mode .font-pacifico { text-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+        /* --- Cake --- */
+        .flame { fill: var(--accent-gold); animation: flicker 1.5s ease-in-out infinite; transform-origin: bottom center; }
+        @keyframes flicker { 0%, 100% { transform: scaleY(1); opacity: 1; } 50% { transform: scaleY(0.95) skewX(2deg); opacity: 0.9; } }
+        #cake-container.cutting .flame { animation: blow-out 0.5s forwards; }
+        @keyframes blow-out { to { opacity: 0; transform: scale(0); } }
+        #cake-container.cutting #cake-slice { animation: slice-cake 0.7s ease-in-out 0.8s forwards; }
+        @keyframes slice-cake { 100% { transform: translate(15px, 8px) rotate(5deg); opacity: 1; } }
+        #cake-slice { opacity: 0; transition: opacity 0.5s; }
+        #knife { position: absolute; width: 150px; height: 30px; opacity: 0; transform-origin: bottom right; pointer-events: none; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3)); }
+        #cake-container.cutting #knife { animation: cut-animation 3s ease-in-out forwards; }
+        @keyframes cut-animation { 0% { opacity: 1; transform: translate(-150px, -200px) rotate(20deg); } 30% { opacity: 1; transform: translate(-10px, -60px) rotate(-35deg); } 60% { opacity: 1; transform: translate(-10px, -50px) rotate(-35deg); } 100% { opacity: 0; transform: translate(150px, -200px) rotate(-50deg); } }
+
+        /* --- Buttons --- */
+        .bday-btn { background-color: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); transition: all 0.3s ease; color: var(--text-light); animation: float-item 4s ease-in-out infinite; }
+        .light-mode .bday-btn { background-color: rgba(255, 255, 255, 0.5); border-color: rgba(109, 40, 217, 0.2); color: var(--text-dark); }
+        .bday-btn:hover { background-color: rgba(255, 255, 255, 0.2); box-shadow: 0 0 20px var(--accent-pink), inset 0 0 10px rgba(255,255,255,0.3); transform: translateY(-5px) scale(1.05); }
+        .light-mode .bday-btn:hover { background-color: white; box-shadow: 0 10px 20px var(--shadow-color); }
+        @keyframes float-item { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+        .bday-btn:nth-child(2) { animation-delay: 0.5s; } .bday-btn:nth-child(3) { animation-delay: 1s; }
+        .bday-btn:nth-child(4) { animation-delay: 1.5s; } .bday-btn:nth-child(5) { animation-delay: 2s; } .bday-btn:nth-child(6) { animation-delay: 0.2s; }
+
+        #finalMessageBtn { animation: subtle-pulse 2.5s infinite ease-in-out; background: linear-gradient(45deg, var(--accent-pink), var(--accent-purple)); border: none; }
+        @keyframes subtle-pulse { 0%, 100% { transform: scale(1); box-shadow: 0 10px 20px var(--shadow-color); } 50% { transform: scale(1.05); box-shadow: 0 15px 30px var(--shadow-color); } }
+
+        /* --- Modals --- */
+        .modal { position: fixed; inset: 0; background: rgba(10, 5, 20, 0.6); backdrop-filter: blur(8px); display: flex; justify-content: center; align-items: center; padding: 1rem; transition: opacity 0.5s ease; opacity: 0; pointer-events: none; z-index: 1050; }
+        .light-mode .modal { background: rgba(255, 255, 255, 0.6); }
+        .modal-content { background: var(--bg-light); color: var(--text-dark); border-radius: 1rem; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3); padding: 2.5rem; max-width: 500px; width: 100%; position: relative; transform: scale(0.9) translateY(20px); transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), var(--theme-transition); }
+        .modal.show { opacity: 1; pointer-events: auto; } .modal.show .modal-content { transform: scale(1) translateY(0); }
+        .modal-close-btn { position: absolute; top: 1rem; right: 1rem; background: #f1f5f9; color: #64748b; border-radius: 9999px; width: 2rem; height: 2rem; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; line-height: 1; transition: all 0.3s ease; }
+        .modal-close-btn:hover { background: #e2e8f0; transform: rotate(90deg); }
+    </style>
+</head>
+
+<body>
+    
+    <div id="loader"><div class="spinner"></div></div>
+
+    <div class="ui-controls">
+        <div id="music-toggle" class="control-btn" title="Toggle Music"><svg id="music-on-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg><svg id="music-off-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="1" y1="1" x2="23" y2="23"></line><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg></div>
+        <div id="theme-toggle" class="control-btn" title="Toggle Theme"><svg id="sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg><svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></div>
+    </div>
+
+    <canvas id="animationCanvas"></canvas>
+    <div class="content-wrapper min-h-screen flex flex-col items-center justify-center p-4 sm:p-8 text-center overflow-hidden">
+        
+        <header id="main-header" class="my-8">
+            <h1 class="font-pacifico text-5xl md:text-7xl lg:text-8xl">🎉 Happy Birthday Juhi 🎉</h1>
+            <p class="mt-4 text-xl md:text-2xl opacity-80">Wishing you the most magical day, fit for a goddess!</p>
+        </header>
+        
+        <section id="cake-section" class="my-8 flex flex-col items-center">
+            <div id="cake-container" class="relative w-72 h-72 mx-auto filter drop-shadow-2xl">
+                <div id="knife"><svg viewBox="0 0 150 30" preserveAspectRatio="none"><path d="M 150 15 C 150 23.28 143.28 30 135 30 L 20 30 Q 5 30 5 15 Q 5 0 20 0 L 135 0 C 143.28 0 150 6.72 150 15 Z" fill="#9ca3af"/><path d="M 120 2 L 15 2 Q 2 2 2 15 Q 2 28 15 28 L 120 28 Z" fill="#e5e7eb"/><path d="M 15 5 L 115 5" stroke="#f8fafc" stroke-width="2"/></svg></div>
+                <svg viewBox="0 0 100 100" id="birthday-cake" class="w-full h-full"><ellipse cx="50" cy="92" rx="48" ry="8" fill="#e0e7ff"/><rect x="15" y="65" width="70" height="25" rx="5" fill="#c026d3" /><rect x="15" y="62" width="70" height="8" fill="#f0abfc" /><rect x="22" y="45" width="56" height="20" rx="4" fill="#a855f7" /><rect x="22" y="42" width="56" height="6" fill="#e9d5ff" /><path d="M22,48 C27,55 32,55 37,48 L37,42 H22Z" fill="#e9d5ff"/><path d="M42,48 C47,58 53,58 58,48 L58,42 H42Z" fill="#e9d5ff"/><path d="M63,48 C68,55 73,55 78,48 L78,42 H63Z" fill="#e9d5ff"/><g class="candle"><rect x="35" y="30" width="4" height="12" fill="#fde047" /><path class="flame" d="M37 30 Q39 25 37 20 Q35 25 37 30 Z" /></g><g class="candle"><rect x="50" y="30" width="4" height="12" fill="#a78bfa" /><path class="flame" d="M52 30 Q54 25 52 20 Q50 25 52 30 Z" /></g><g class="candle"><rect x="65" y="30" width="4" height="12" fill="#60a5fa" /><path class="flame" d="M67 30 Q69 25 67 20 Q65 25 67 30 Z" /></g><g id="cake-slice"><path d="M50,45 L62,45 L62,85 L50,85 Z" fill="#2e1065" /><path d="M62,45 L70,47 L70,87 L62,85 Z" fill="#581c87"/><path d="M50,45 L70,47 L62,45 Z" fill="#e9d5ff"/></g></svg>
+            </div>
+            <button id="cutCakeBtn" class="mt-8 bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 focus:ring-4 focus:ring-pink-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-scissors"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><line x1="20" y1="4" x2="8.12" y2="15.88"></line><line x1="14.47" y1="14.48" x2="20" y2="20"></line><line x1="8.12" y1="8.12" x2="12" y2="12"></line></svg>Cut the Cake!</button>
+        </section>
+
+        <section class="my-10 grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 w-full max-w-4xl"><a href="Meomory.html" class="bday-btn flex flex-col items-center justify-center p-4 rounded-2xl text-center font-semibold"><span class="text-3xl mb-2">📸</span> Memories</a><a href="Birthday_Notes.html" class="bday-btn flex flex-col items-center justify-center p-4 rounded-2xl text-center font-semibold"><span class="text-3xl mb-2">💌</span> Birthday Notes</a><button id="horoscopeBtn" class="bday-btn flex flex-col items-center justify-center p-4 rounded-2xl text-center font-semibold"><span class="text-3xl mb-2">🔮</span> Your Horoscope</button><a href="special.html" class="bday-btn flex flex-col items-center justify-center p-4 rounded-2xl text-center font-semibold"><span class="text-3xl mb-2">💖</span> Why You're Special</a><a href="Santa.html" class="bday-btn flex flex-col items-center justify-center p-4 rounded-2xl text-center font-semibold"><span class="text-3xl mb-2">🎅</span> A Gift From Santa</a><button id="StoryBtn" class="bday-btn flex flex-col items-center justify-center p-4 rounded-2xl text-center font-semibold"><span class="text-3xl mb-2">📖</span> A Special Story</button></section>
+
+        <section class="my-8 flex justify-center"><a href="universe.html" class="bday-btn flex items-center gap-4 py-4 px-8 rounded-full shadow-2xl"><span class="text-3xl">🌌</span><span>What does the universe think about you?</span></a></section>
+        
+        <section class="my-8"><a href="Surprise.html" id="finalMessageBtn" class="inline-block text-white font-bold py-4 px-8 rounded-full shadow-2xl">One Last Surprise For You...</a></section>
+
+        <section id="countdown" class="bg-white/10 backdrop-blur-md rounded-2xl shadow-xl p-6 my-8 w-full max-w-4xl border border-white/20"><h2 class="text-2xl font-bold mb-4 opacity-90">Every end is a new beginning... Countdown to your next birthday!</h2><div id="timer" class="grid grid-cols-3 md:grid-cols-6 gap-4 text-lg"></div></section>
+    </div>
+
+    <!-- Modals -->
+    <div id="giftCardModal" class="modal"><div class="modal-content text-center"><button id="closeGiftCard" class="modal-close-btn">&times;</button><div class="w-24 h-24 mb-4 mx-auto animate-bounce"><svg viewBox="0 0 64 64" fill="none" class="w-full h-full"><rect x="8" y="24" width="48" height="32" rx="6" fill="#f9a8d4"/><rect x="8" y="24" width="48" height="10" rx="3" fill="#f472b6"/><rect x="30" y="24" width="4" height="32" fill="#fff" /><rect x="8" y="34" width="48" height="4" fill="#fff" /><ellipse cx="20" cy="24" rx="6" ry="10" fill="#f472b6"/><ellipse cx="44" cy="24" rx="6" ry="10" fill="#f472b6"/></svg></div><h2 class="font-pacifico text-3xl text-pink-500 mb-2">Happywala Birthday!</h2><p class="text-lg text-gray-700 mb-4">A Capricorn born on Christmas Day! You are destined for a year filled with warmth, joy, and leadership. May your day be filled with all the love you deserve. You are truly special! 🎁🎂</p><button id="closeGiftCard2" class="mt-4 bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 px-6 rounded-full shadow-lg">Close</button></div></div>
+    <div id="horoscopeModal" class="modal"><div class="modal-content"><button id="closeHoroscope" class="modal-close-btn">&times;</button><h2 class="font-pacifico text-4xl mb-4 text-purple-700 text-center"><span class="text-2xl mr-2">🔮</span>Your Birthday Horoscope</h2><p class="text-lg text-gray-700">A Capricorn born on Christmas Day is a rare gem! Your year ahead is illuminated by ambition and creativity. Expect opportunities for leadership and personal growth. Your generous spirit will attract warmth and wonderful connections. Embrace your unique magic! 🌟</p><button id="backHoroscope" class="mt-6 w-full bg-purple-500 hover:bg-purple-700 text-white font-bold py-3 px-4 rounded-lg">Awesome!</button></div></div>
+    <div id="storyModal" class="modal"><div class="modal-content bg-yellow-50 border-4 border-yellow-400"><button id="closeStory" class="modal-close-btn">&times;</button><h2 class="font-pacifico text-4xl mb-4 text-yellow-800 text-center"><span class="text-2xl mr-2">📖</span> A Birthday Story</h2><p class="text-lg text-gray-700">Once upon a time, in a universe sparkling with possibilities, a star decided to shine a little brighter. On that very day, you were born, bringing a unique light to the world. Your story is an epic, and today, you turn a new, brilliant page. Adventure awaits! ✨</p><button id="backStory" class="mt-6 w-full bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-4 rounded-lg">What a story!</button></div></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- Pre-loader ---
+            const loader = document.getElementById('loader');
+            window.addEventListener('load', () => { loader.classList.add('hidden'); });
+
+            // --- Sound & Music Engine ---
+            const synth = new Tone.Synth({ oscillator: { type: 'sine' }, envelope: { attack: 0.005, decay: 0.1, sustain: 0.3, release: 1 } }).toDestination();
+            const playSound = (note, duration) => { try { Tone.start(); synth.triggerAttackRelease(note, duration); } catch (e) {} };
+            document.querySelectorAll('button, a').forEach(el => el.addEventListener('click', () => playSound('C5', '8n')));
+
+            const musicLoop = new Tone.Loop(time => {
+                synth.triggerAttackRelease("C4", "8n", time);
+                synth.triggerAttackRelease("G4", "8n", time + 0.5);
+                synth.triggerAttackRelease("A4", "8n", time + 1);
+                synth.triggerAttackRelease("G4", "8n", time + 1.5);
+            }, "2n").start(0);
+
+            const musicToggle = document.getElementById('music-toggle');
+            musicToggle.addEventListener('click', () => {
+                Tone.start();
+                if (Tone.Transport.state === 'started') { Tone.Transport.stop(); musicToggle.classList.remove('music-playing'); } 
+                else { Tone.Transport.start(); musicToggle.classList.add('music-playing'); }
+            });
+
+            // --- Theme Toggle ---
+            const themeToggle = document.getElementById('theme-toggle');
+            const body = document.body;
+            const currentTheme = localStorage.getItem('theme');
+            if (currentTheme) body.classList.add(currentTheme);
+            themeToggle.addEventListener('click', () => {
+                body.classList.toggle('light-mode');
+                localStorage.setItem('theme', body.classList.contains('light-mode') ? 'light-mode' : '');
+                playSound('G5', '8n');
+            });
+            
+            // --- Mouse Parallax for Header ---
+            const header = document.getElementById('main-header');
+            window.addEventListener('mousemove', (e) => {
+                const { clientX, clientY } = e;
+                const moveX = (clientX - window.innerWidth / 2) * -0.01;
+                const moveY = (clientY - window.innerHeight / 2) * -0.02;
+                header.style.transform = `translate(${moveX}px, ${moveY}px) rotateX(${-moveY * 0.5}deg) rotateY(${moveX * 0.5}deg)`;
+            });
+            
+            // --- Cake Cutting & Gift Modal Logic ---
+            const cutCakeBtn = document.getElementById('cutCakeBtn');
+            const cakeContainer = document.getElementById('cake-container');
+            const giftCardModal = document.getElementById('giftCardModal');
+            
+            cutCakeBtn.addEventListener('click', function() {
+                if (cakeContainer.classList.contains('cutting')) return;
+                playSound('E4', '4n');
+                cakeContainer.classList.add('cutting');
+                triggerConfettiBurst();
+                cutCakeBtn.disabled = true;
+                cutCakeBtn.innerHTML = 'Happy Birthday!';
+                setTimeout(() => { giftCardModal.classList.add('show'); playSound('C6', '4n'); }, 2500);
+            });
+            function closeGift() { giftCardModal.classList.remove('show'); }
+            document.getElementById('closeGiftCard').addEventListener('click', closeGift);
+            document.getElementById('closeGiftCard2').addEventListener('click', closeGift);
+
+            // --- Countdown Timer Logic ---
+            const timerEl = document.getElementById('timer');
+            function updatePageCountdown() {
+                const now = new Date();
+                let nextBirthday = new Date(now.getFullYear(), 11, 25);
+                if (now > nextBirthday) nextBirthday.setFullYear(nextBirthday.getFullYear() + 1);
+                
+                if (now.getMonth() === 11 && now.getDate() === 25) {
+                    timerEl.innerHTML = `<div class="col-span-full p-3 bg-white/20 rounded-lg"><span class="text-3xl font-bold">🎉 Happy Birthday! Enjoy Your Day! 🎉</span></div>`;
+                    return;
+                }
+
+                const diff = nextBirthday - now;
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+                const months = Math.floor(days / 30.44);
+                const weeks = Math.floor((days % 30.44) / 7);
+                const remainingDays = Math.floor(days % 7);
+                
+                const format = (v, l) => `<div class="p-3 bg-white/10 rounded-lg border border-white/20"><span class="text-3xl md:text-4xl font-bold">${String(v).padStart(2, '0')}</span><br>${l}</div>`;
+                timerEl.innerHTML = `${format(months, 'Months')}${format(weeks, 'Weeks')}${format(remainingDays, 'Days')}${format(hours, 'Hours')}${format(minutes, 'Minutes')}${format(seconds, 'Seconds')}`;
+            }
+            setInterval(updatePageCountdown, 1000);
+            updatePageCountdown();
+
+            // --- General Modal Logic ---
+            const horoscopeModal = document.getElementById('horoscopeModal');
+            const storyModal = document.getElementById('storyModal');
+            document.getElementById('horoscopeBtn').addEventListener('click', () => horoscopeModal.classList.add('show'));
+            document.getElementById('closeHoroscope').addEventListener('click', () => horoscopeModal.classList.remove('show'));
+            document.getElementById('backHoroscope').onclick = () => horoscopeModal.classList.remove('show');
+            document.getElementById('StoryBtn').addEventListener('click', () => storyModal.classList.add('show'));
+            document.getElementById('closeStory').addEventListener('click', () => storyModal.classList.remove('show'));
+            document.getElementById('backStory').addEventListener('click', () => storyModal.classList.remove('show'));
+
+            // --- Canvas Animation ---
+            const canvas = document.getElementById('animationCanvas');
+            const ctx = canvas.getContext('2d');
+            let confettiPieces = [];
+            const confettiColors = ['#f72585', '#7209b7', '#4361ee', '#ffdd00', '#fff'];
+
+            function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+            
+            // --- Aurora Borealis ---
+            let time = 0;
+            function drawAurora() {
+                time += 0.003;
+                for (let i = 0; i < 60; i++) {
+                    const x = Math.sin(i * 0.2 + time) * 300 + canvas.width / 2;
+                    const y = i * 15;
+                    const width = 300 + Math.sin(i * 0.1 + time) * 150;
+                    const height = 20;
+                    const alpha = (Math.sin(i * 0.05 + time) * 0.5 + 0.5) * 0.1;
+
+                    const grad = ctx.createRadialGradient(x, y, 1, x, y, width);
+                    grad.addColorStop(0, `hsla(${180 + i * 2}, 100%, 70%, ${alpha})`);
+                    grad.addColorStop(1, `hsla(${180 + i * 2}, 100%, 70%, 0)`);
+                    ctx.fillStyle = grad;
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                }
+            }
+
+
+            class Confetti {
+                constructor(x, y) {
+                    this.x = x; this.y = y;
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = Math.random() * 6 + 2;
+                    this.speedX = Math.cos(angle) * speed;
+                    this.speedY = Math.sin(angle) * speed - 4; // Move upwards initially
+                    this.gravity = 0.1;
+                    this.size = Math.random() * 8 + 4;
+                    this.opacity = 1;
+                    this.fade = Math.random() * 0.02 + 0.01;
+                    this.rotation = Math.random() * 360;
+                    this.spin = Math.random() * 20 - 10;
+                    this.color = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+                }
+                update() {
+                    this.speedY += this.gravity;
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                    this.opacity -= this.fade;
+                    this.rotation += this.spin;
+                }
+                draw() {
+                    ctx.save();
+                    ctx.globalAlpha = this.opacity;
+                    ctx.translate(this.x, this.y);
+                    ctx.rotate(this.rotation * Math.PI / 180);
+                    ctx.fillStyle = this.color;
+                    ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size);
+                    ctx.restore();
+                }
+            }
+            function triggerConfettiBurst() {
+                const burstX = window.innerWidth / 2;
+                const burstY = window.innerHeight / 2 + 50;
+                for (let i = 0; i < 200; i++) {
+                    confettiPieces.push(new Confetti(burstX, burstY));
+                }
+            }
+            
+            function handleAnimations() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                if(!document.body.classList.contains('light-mode')) {
+                    drawAurora();
+                }
+                confettiPieces = confettiPieces.filter(c => c.opacity > 0);
+                confettiPieces.forEach(c => { c.update(); c.draw(); });
+            }
+
+            window.addEventListener('resize', resizeCanvas);
+            resizeCanvas();
+
+            (function animate() {
+                handleAnimations();
+                requestAnimationFrame(animate);
+            })();
+        });
+    </script>
+</body>
+</html>
+

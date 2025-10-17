@@ -1,0 +1,94 @@
+    <!-- Section 6: XMAS MODAL -->
+    <div id="xmasModal" class="fixed inset-0 z-[3000] hidden overflow-hidden">
+        <audio id="xmas-background-music" loop src="https://cdn.pixabay.com/download/audio/2022/09/25/audio_296e5a8553.mp3?filename=a-small-miracle-119512.mp3"></audio>
+
+        <button id="closeXmasModal" class="absolute top-4 right-4 z-50 text-white bg-black bg-opacity-50 rounded-full w-12 h-12 text-3xl flex items-center justify-center hover:bg-opacity-75 transition-opacity">&times;</button>
+        <div id="snow-container" class="fixed top-0 left-0 w-full h-full z-5 pointer-events-none" aria-hidden="true"></div>
+        <canvas id="xmas-fireworks-canvas"></canvas>
+
+        <div class="relative w-full h-screen flex items-center justify-center p-4">
+            <div class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 z-0"></div>
+            <div id="scene1" class="modal-container text-center bg-white bg-opacity-95 backdrop-blur-sm p-8 rounded-2xl shadow-2xl max-w-md w-full relative overflow-hidden z-10">
+                <div class="sparkle-container absolute top-0 left-0 w-full h-full pointer-events-none z-0"></div>
+                <div class="relative z-10">
+                    <h2 class="text-3xl font-festive text-gray-800">Oh, see who is here...</h2>
+                    <p class="text-4xl font-bold mt-2 text-red-600">The Goddess Herself!</p>
+                    <button id="kuchBhiBtn" class="mt-8 bg-red-600 text-white font-bold py-3 px-10 rounded-full shadow-lg hover:bg-red-700 transform hover:scale-105 transition-all duration-300">
+                        Continue
+                    </button>
+                </div>
+            </div>
+            <div id="scene2" class="modal-container hidden text-center bg-white bg-opacity-95 backdrop-blur-sm p-8 rounded-2xl shadow-2xl max-w-md w-full relative overflow-hidden z-10">
+                <div class="sparkle-container absolute top-0 left-0 w-full h-full pointer-events-none z-0"></div>
+                <div class="relative z-10">
+                    <h2 class="text-4xl font-festive text-green-700">A Special Message!</h2>
+                    <p class="text-gray-700 mt-4 text-lg">
+                        "Someone truly wonderful has a birthday today. I've consulted the stars and they all agree you're at the top of the 'amazing people' list! I've got a little something for you. Wishing you a day as magical as you are!"
+                    </p>
+                    <button id="thanksBtn" class="mt-8 bg-green-600 text-white font-bold py-3 px-10 rounded-full shadow-lg hover:bg-green-700 transform hover:scale-105 transition-all duration-300">
+                        Okayy....
+                    </button>
+                </div>
+            </div>
+            <div id="scene2_5" class="modal-container hidden text-center bg-white bg-opacity-95 backdrop-blur-sm p-8 rounded-2xl shadow-2xl max-w-lg w-full relative overflow-hidden z-10">
+                <div class="sparkle-container absolute top-0 left-0 w-full h-full pointer-events-none z-0"></div>
+                <div class="relative z-10">
+                    <h2 class="text-4xl font-festive text-purple-700">A Poem Just For You</h2>
+                    <div class="text-gray-700 mt-4 text-left font-poem italic text-lg space-y-2">
+                        <p>The stars aligned, a special day,</p>
+                        <p>To celebrate you in every way.</p>
+                        <p>With a heart of gold and a spirit bright,</p>
+                        <p>You fill the world with so much light.</p>
+                        <p>May laughter echo, may joy abound,</p>
+                        <p>May all the best things be all around.</p>
+                    </div>
+                    <button id="continueBtn" class="mt-8 bg-purple-600 text-white font-bold py-3 px-10 rounded-full shadow-lg hover:bg-purple-700 transform hover:scale-105 transition-all duration-300">
+                        Continue
+                    </button>
+                </div>
+            </div>
+            <div id="scene2_75" class="modal-container hidden text-center bg-white bg-opacity-95 backdrop-blur-sm p-8 rounded-2xl shadow-2xl max-w-md w-full relative overflow-hidden z-10">
+                <div class="sparkle-container absolute top-0 left-0 w-full h-full pointer-events-none z-0"></div>
+                <div class="relative z-10">
+                    <h2 class="text-4xl font-festive text-amber-600">Make a Birthday Wish</h2>
+                    <div class="my-6">
+                        <svg width="100" height="150" viewBox="0 0 100 150" class="mx-auto">
+                            <defs>
+                                <radialGradient id="flameGradient">
+                                    <stop offset="0%" stop-color="#FFD700" />
+                                    <stop offset="50%" stop-color="#FFA500" />
+                                    <stop offset="100%" stop-color="#FF4500" />
+                                </radialGradient>
+                            </defs>
+                            <path class="flame" d="M50 40 C 50 40, 40 20, 50 0 C 60 20, 50 40, 50 40 Z" fill="url(#flameGradient)" />
+                            <line x1="50" y1="40" x2="50" y2="45" stroke="black" stroke-width="2" />
+                            <rect x="40" y="45" width="20" height="105" rx="5" fill="#fefae0" />
+                            <path d="M40 50 C 35 60, 45 65, 40 70" fill="#fefae0" stroke="#e9edc9" stroke-width="1" />
+                        </svg>
+                    </div>
+                    <p class="text-gray-600 text-lg italic">Close your eyes, think of something wonderful, and click below when you're ready.</p>
+                    <button id="wishBtn" class="mt-6 bg-amber-500 text-white font-bold py-3 px-10 rounded-full shadow-lg hover:bg-amber-600 transform hover:scale-105 transition-all duration-300">
+                        I've Made My Wish
+                    </button>
+                </div>
+            </div>
+            <div id="scene3" class="modal-container hidden text-center max-w-sm w-full relative z-10">
+                <p class="text-center text-white text-2xl font-festive mb-4 drop-shadow-lg">A few words for you...</p>
+                <div id="magicGiftImg" class="bg-white bg-opacity-20 backdrop-blur-md p-6 rounded-2xl shadow-lg cursor-pointer transform hover:scale-105 transition-transform duration-500 border border-white/30">
+                    <p class="font-poem italic text-white text-xl">
+                        "May your year be filled with as much joy, light, and magic as you bring to everyone else."
+                    </p>
+                    <p class="text-white text-sm mt-4 opacity-70">(Click to see the finale)</p>
+                </div>
+            </div>
+            <div id="scene4" class="modal-container hidden text-center max-w-sm w-full relative z-10">
+                <img id="finalPhoto" src="Santa_gift.png" alt="Happy Birthday message with confetti" class="rounded-2xl shadow-2xl w-full">
+                <p class="mt-6 text-2xl font-festive text-pink-300 drop-shadow-lg animate-pulse">Happy Birthday To You!</p>
+                <button id="backBtn" class="mt-4 bg-white text-gray-800 font-bold py-3 px-10 rounded-full shadow-lg hover:bg-gray-200 transform hover:scale-105 transition-all duration-300">
+                    Back
+                </button>
+            </div>
+        </div>
+    </div>
+
+

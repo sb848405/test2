@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Surprise for You!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #0c0a09;
+            font-family: 'Inter', sans-serif;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .font-pacifico {
+            font-family: 'Pacifico', cursive;
+        }
+
+        .card {
+            background: rgba(17, 13, 41, 0.5);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 2px solid #ec4899;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 1rem;
+            padding: 2px;
+            background: linear-gradient(120deg, #ec4899, #4338ca, #ec4899);
+            background-size: 200% 200%;
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: destination-out;
+            mask-composite: exclude;
+            animation: gradient-flow 3s ease infinite;
+            pointer-events: none;
+        }
+
+        @keyframes gradient-flow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, #ec4899, #4338ca);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px #ec4899, 0 0 15px #4338ca;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(to right, #4338ca, #ec4899);
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px #4338ca, 0 0 15px #ec4899;
+        }
+
+        .hidden { display: none; }
+
+        .heartbeat { animation: heartbeat 1.5s ease-in-out infinite both; }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .question-anim { animation: slide-in-top 0.7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both; }
+
+        @keyframes slide-in-top {
+            0% { transform: translateY(-50px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        .response-anim { animation: pop-in 0.6s cubic-bezier(0.250, 0.460, 0.450, 0.940) both; }
+        
+        @keyframes pop-in {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        #question-text {
+            background: linear-gradient(to right, #f9a8d4, #a5b4fc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-top: 1rem;
+            background: linear-gradient(to right, #6d28d9, #4f46e5);
+            transition: all 0.3s ease;
+        }
+        .back-button:hover{
+            transform: scale(1.05);
+            box-shadow: 0 0 20px #6d28d9;
+        }
+    </style>
+</head>
+
+<body>
+    <audio id="birthday-song" class="hidden"></audio>
+    <div id="game-container" class="w-full max-w-md mx-auto text-center p-4">
+        <div id="start-screen" class="card p-8 rounded-2xl shadow-lg">
+            <h1 class="font-pacifico text-4xl mb-4 text-pink-400">Happy Birthday!</h1>
+            <p class="mb-8 text-gray-300">I made a little game for your special day. Play along?</p>
+            <button id="start-btn" class="btn-primary text-white font-bold py-3 px-8 rounded-full shadow-lg w-full">Let's Go!</button>
+        </div>
+
+        <div id="game-screen" class="hidden">
+            <div class="card p-8 rounded-2xl shadow-lg">
+                <div id="question-icon" class="h-16 w-16 mx-auto mb-4 text-pink-400"></div>
+                <p id="question-text" class="text-3xl min-h-[100px] mb-8 text-gray-200"></p>
+                <p id="response-text" class="text-xl min-h-[60px] mb-6 text-pink-300 font-pacifico"></p>
+                <div id="options" class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button id="yes-btn" class="btn-primary text-white font-bold py-3 px-6 rounded-full w-full">Yes</button>
+                    <button id="no-btn" class="btn-secondary text-white font-bold py-3 px-6 rounded-full w-full">No</button>
+                </div>
+                <div id="next-container" class="hidden mt-6">
+                    <button id="next-btn" class="btn-primary text-white font-bold py-3 px-8 rounded-full shadow-lg w-full">Jata 🙂</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="gift-screen" class="hidden text-center">
+            <div class="card p-8 rounded-2xl shadow-lg">
+                <h2 class="font-pacifico text-4xl mb-4 text-pink-400">A Birthday Surprise!</h2>
+                <p class="mb-6 text-gray-300">Hope you have the best day ever!</p>
+                <div class="mb-8">
+                    <svg class="w-24 h-24 text-pink-500 mx-auto heartbeat" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"></path>
+                    </svg>
+                </div>
+                <p class="mb-6 text-gray-400">Click the button for a sweet melody.</p>
+                <button id="play-audio-btn" class="btn-primary text-white font-bold py-3 px-8 rounded-full shadow-lg w-full">Play My Gift</button>
+                <p id="audio-message" class="mt-4 text-sm text-gray-500"></p>
+                <a href="Main.html" class="back-button text-white font-bold py-3 px-8 rounded-full shadow-lg w-full">Back to Home</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const startScreen = document.getElementById('start-screen');
+            const gameScreen = document.getElementById('game-screen');
+            const giftScreen = document.getElementById('gift-screen');
+            const startBtn = document.getElementById('start-btn');
+            const questionIcon = document.getElementById('question-icon');
+            const questionText = document.getElementById('question-text');
+            const responseText = document.getElementById('response-text');
+            const optionsDiv = document.getElementById('options');
+            const yesBtn = document.getElementById('yes-btn');
+            const noBtn = document.getElementById('no-btn');
+            const nextContainer = document.getElementById('next-container');
+            const nextBtn = document.getElementById('next-btn');
+            const playAudioBtn = document.getElementById('play-audio-btn');
+            const audioMessage = document.getElementById('audio-message');
+            const audioPlayer = document.getElementById('birthday-song');
+
+            const story = [{
+                question: "Are you into karate?",
+                answer: "Because every step you take feels powerful and graceful.",
+                icon: `<div class="bg-pink-400 rounded-full p-2 flex items-center justify-center w-full h-full text-5xl">🥋</div>`
+            }, {
+                question: "Are you a tree medicine?",
+                answer: "Because your presence heals everything around. 🌿",
+                icon: `<svg xmlns="http://www.w3.org/2000/svg" class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 8v8m-4-4h8"/></svg>`
+            }, {
+                question: "Are you a top student?",
+                answer: "Because every moment with you teaches my heart something new. 📚",
+                icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-full h-full"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" /></svg>`
+            }, {
+                question: "Are you a masterpiece?",
+                answer: "Because every detail of life seems brighter and full of meaning with you. 🎨",
+                icon: `<div class="bg-pink-400 rounded-full p-2 flex items-center justify-center w-full h-full text-4xl">🖼</div>`
+            }, {
+                question: "Are you a celestial muse?",
+                answer: "Because even ordinary moments feel magical with you.",
+                icon: `<svg xmlns="http://www.w3.org/2000/svg" class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`
+            }];
+            let currentStep = 0;
+            const songUrl = 'https://dl.vgmdownloads.com/soundtracks/super-mario-64-original-soundtrack/kseettidud/1-01.%20It%27s%20a%20Me%2C%20Mario%21.mp3';
+
+            function applyAnimation(element, animationClass) {
+                element.classList.remove(animationClass);
+                void element.offsetWidth; // Trigger reflow
+                element.classList.add(animationClass);
+            }
+
+            function showScreen(screen) {
+                startScreen.classList.add('hidden');
+                gameScreen.classList.add('hidden');
+                giftScreen.classList.add('hidden');
+                screen.classList.remove('hidden');
+            }
+
+            function showQuestion() {
+                responseText.textContent = '';
+                optionsDiv.classList.remove('hidden');
+                nextContainer.classList.add('hidden');
+                nextBtn.textContent = "Jata 🙂";
+                const currentQuestion = story[currentStep];
+                questionIcon.innerHTML = currentQuestion.icon;
+                questionText.textContent = currentQuestion.question;
+                applyAnimation(questionText, 'question-anim');
+                applyAnimation(questionIcon, 'pop-in');
+            }
+
+            function handleChoiceClick() {
+                optionsDiv.classList.add('hidden');
+                const currentQuestion = story[currentStep];
+                responseText.textContent = currentQuestion.answer;
+                applyAnimation(responseText, 'response-anim');
+                if (currentStep === story.length - 1) {
+                    nextBtn.textContent = "See My Surprise 🙂";
+                }
+                nextContainer.classList.remove('hidden');
+            }
+
+            function handleNextClick() {
+                currentStep++;
+                if (currentStep < story.length) {
+                    showQuestion();
+                } else {
+                    showScreen(giftScreen);
+                }
+            }
+
+            function playGiftMelody() {
+                if (audioPlayer.src !== songUrl || audioPlayer.ended) {
+                    audioPlayer.src = songUrl;
+                }
+                audioPlayer.play().catch(error => console.error("Audio playback failed:", error));
+                playAudioBtn.disabled = true;
+                playAudioBtn.textContent = "Playing...";
+                audioMessage.textContent = "Happy Birthday!! :)";
+                audioPlayer.onended = () => {
+                    playAudioBtn.disabled = false;
+                    playAudioBtn.textContent = "Play Again";
+                };
+            }
+
+            startBtn.addEventListener('click', () => {
+                showScreen(gameScreen);
+                showQuestion();
+            });
+
+            yesBtn.addEventListener('click', handleChoiceClick);
+            noBtn.addEventListener('click', handleChoiceClick);
+            nextBtn.addEventListener('click', handleNextClick);
+            playAudioBtn.addEventListener('click', playGiftMelody);
+        });
+    </script>
+</body>
+
+</html>
